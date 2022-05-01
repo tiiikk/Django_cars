@@ -1,0 +1,30 @@
+<form action="{% url 'cars:car_list' %}" method="GET">
+
+    {{ search_form }}
+
+    <input type="submit" value="Search">
+
+</form>
+
+
+{% for car in object_list %}
+    <p>
+        <a href="{% url 'cars:car_detail' car.pk %}">{{ car.name }}</a>
+    </p>
+{% endfor %}
+
+{% if is_paginated %}
+    <div>
+        <span>
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">Previous</a>
+            {% endif %}
+            <span>
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">Next</a>
+            {% endif %}
+        </span>
+    </div>
+{% endif %}
