@@ -1,13 +1,30 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
 from django.forms import models
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
-from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
+
+from car import settings
 from .models import Car, Category
 from .forms import CarSearchForm
+from django.contrib.auth.views import LoginView
+from django.contrib.auth import views as auth_views, authenticate, login, logout
 
-host = 'http://127.0.0.1:8000/'
+host = 'http://127.0.0.1:8000/car/all/'
+
+# def my_view(request):
+#     username = request.POST['username']
+#     password = request.POST['password']
+#     user = authenticate(request, username=username, password=password)
+#     if user is not None:
+#         return render(request,'registration/login.html')
+
+
+@login_required(login_url='/registration/login/')
+
 
 def home_page(request):
     return render(request, 'cars/home_page.html')
@@ -46,6 +63,7 @@ class CarListView(ListView):
                 qs = qs.filter(category_id=category_id)
 
         return qs
+
 
 class CarCreateView(CreateView):
     model = Car

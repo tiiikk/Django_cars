@@ -3,14 +3,21 @@
     {{ search_form }}
 
     <input type="submit" value="Search">
-
+<p>
+<a  href = "{% url 'cars:login' %}"><input type="submit" value="login"></a>
+    <p>
 </form>
+
+ <a href = "{% url 'cars:car_form' %}"><input type="submit" value="create"></a>
 
 
 {% for car in object_list %}
     <p>
         <a href="{% url 'cars:car_detail' car.pk %}">{{ car.name }}</a>
-    </p>
+        <a href = "{% url 'cars:car_delete' car.pk%}"><input type="submit" value="delete"></a>
+        <a href = "{% url 'cars:car_form' car.pk%}"><input type="submit" value="update"></a>
+ </p>
+
 {% endfor %}
 
 {% if is_paginated %}
