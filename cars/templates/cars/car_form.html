@@ -1,12 +1,26 @@
-<form method="POST" enctype="multipart/form-data">
-{% if user.is_authenticated %}
-    {% csrf_token %}
+{% extends "../../../templates/base.html" %}
 
-    {{ form.as_p }}
+{% block content %}
 
-    <input type="submit" value="submit">
-{% else %}
-    <p>log in<a>href = "{% url 'cars:login' %}"</a></p>
+    <!-- BOOTSTRAP FORM -->
 
-    {% endif %}
-</form>
+    <div class="container d-flex justify-content-center mt-5" style="width: 25%;">
+        <div class="col mt-5">
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <table class="table">
+                    {{ form }}
+                </table>
+                <div class="container d-flex justify-content-center" style="width: 10%;">
+                    <input type="submit" class="btn btn-primary btn-lg" value="Submit"
+                           style="margin-right: 30px; margin-top: 30px;">
+                    <input type="submit" class="btn btn-danger btn-lg"  id="cancel_add_car" style="margin-top: 30px;"
+                           value="Cancel">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- END BOOTSTRAP FORM -->
+
+{% endblock %}

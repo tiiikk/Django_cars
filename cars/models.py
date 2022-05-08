@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
@@ -27,13 +28,17 @@ class Car(models.Model):
     )
 
     name = models.CharField(max_length=100)
-    vin = models.CharField(max_length=17, null=True, unique=True, help_text='Vehicle Identification Number')
+    vin = models.CharField(max_length=17, null=True, blank=True, unique=True, help_text='Vehicle Identification Number')
 
     price = models.DecimalField(max_digits=20, decimal_places=2)
     currency = models.CharField(max_length=1, choices=CURRENCIES)
     year = models.PositiveIntegerField(validators=[MinValueValidator(1900), MaxValueValidator(2022)])
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+    image = models.ImageField(upload_to='cars_images', null=True)
+
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     class Meta:
         db_table = 'cars'

@@ -1,15 +1,12 @@
 from django.urls import path
-
-from cars.views import CarListView, CarDetailView, CarCreateView, CarUpdateView, CarDeleteView, home_page, LoginView
+from django.contrib.auth.decorators import login_required
+from .views import CarListView, CarDetailView, CarCreateView, CarUpdateView, CarDeleteView
 
 app_name = 'cars'
 urlpatterns = [
-    path('help/', home_page, name='home_page'),
-    path('all/', CarListView.as_view(), name='car_list'),
-    path('<int:pk>/', CarDetailView.as_view(), name='car_detail'),
-    path('add/', CarCreateView.as_view(), name='car_form'),
-    path('update/<int:pk>', CarUpdateView.as_view(), name='car_form'),
-    path('delete/<int:pk>', CarDeleteView.as_view(), name='car_delete'),
-    path("login/", LoginView.as_view(), name='login')
-
+    path('', CarListView.as_view(), name='car_list'),
+    path('<int:pk>/detail/', CarDetailView.as_view(), name='car_detail'),
+    path('create/', login_required(CarCreateView.as_view()), name='car_create'),
+    path('<int:pk>/update/', login_required(CarUpdateView.as_view()), name='car_update'),
+    path('<int:pk>/delete/', login_required(CarDeleteView.as_view()), name='car_delete'),
 ]
